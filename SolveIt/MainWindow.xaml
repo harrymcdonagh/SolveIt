@@ -4,9 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SolveIt"
+        xmlns:userControl="clr-namespace:SolveIt.View.UserControls"
+        xmlns:graph="clr-namespace:SolveIt.View.Graph"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="SolveIt" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
 
+        <!--Menu Bar-->
+        <userControl:MenuBar Grid.Row="0"/>
+
+        <!--Graph / Answer Content-->
+        <graph:GraphDisplay Grid.Row="1" />
+
+        <!--User Input-->
+        <userControl:InputPanel Grid.Row="2" />
+
+        <!--Footer Bar-->
+        <Rectangle Grid.Row="3" Fill="Blue"/>
     </Grid>
 </Window>
