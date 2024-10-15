@@ -14,7 +14,7 @@
         <!-- Left Column with Light Gray Rectangle -->
         <Grid Grid.Column="0">
             <Rectangle Fill="LightGray"/>
-            <TextBlock x:Name="MainAnswerTextBlock" 
+            <TextBlock x:Name="AnswerText" 
                    Text="Answer will appear here" 
                    TextWrapping="Wrap"
                    TextAlignment="Center"

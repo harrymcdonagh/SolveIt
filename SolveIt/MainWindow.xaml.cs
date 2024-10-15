@@ -1,12 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+using MathInterpreter;
+
 
 namespace SolveIt
 {
     public partial class MainWindow : Window
     {
-        bool running = false;
         public MainWindow()
         {
             InitializeComponent();

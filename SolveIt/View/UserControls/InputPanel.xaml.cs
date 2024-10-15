@@ -1,28 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using MathInterpreter;
 
 namespace SolveIt.View.UserControls
 {
-    /// <summary>
-    /// Interaction logic for InputPanel.xaml
-    /// </summary>
     public partial class InputPanel : UserControl
     {
+        public event EventHandler<int> ResultCalculated;
         public InputPanel()
         {
             InitializeComponent();
+        }
+
+        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            string input = InputTextBox.Text;
+            if (string.IsNullOrEmpty(input))
+            {
+                StatusOutput.Foreground = Brushes.Red;
+                StatusOutput.Text = "Please enter a valid input";
+                return;
+            }
+            try
+            {
+                int result = Interpreter.interpret(input);
+                StatusOutput.Text = $"Result: {result}";
+            }
+            catch (Exception ex)
+            {
+                StatusOutput.Foreground = Brushes.Red;
+                StatusOutput.Text = $"Error: {ex.Message}";
+            }
         }
     }
 }
