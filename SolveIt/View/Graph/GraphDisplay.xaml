@@ -16,7 +16,8 @@
             <Rectangle Fill="LightGray"/>
             <TextBlock x:Name="AnswerText" 
                    Text="Answer will appear here" 
-                   TextWrapping="Wrap"
+                   FontSize="65"
+                   FontWeight="Bold"
                    TextAlignment="Center"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"

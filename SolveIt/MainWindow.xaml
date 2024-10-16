@@ -17,15 +17,15 @@
         </Grid.RowDefinitions>
 
         <!--Menu Bar-->
-        <userControl:MenuBar Grid.Row="0"/>
+        <userControl:MenuBar Grid.Row="0" />
 
         <!--Graph / Answer Content-->
-        <graph:GraphDisplay Grid.Row="1" />
+        <graph:GraphDisplay Grid.Row="1" x:Name="graphDisplay"/>
 
         <!--User Input-->
-        <userControl:InputPanel Grid.Row="2" />
+        <userControl:InputPanel Grid.Row="2" x:Name="inputPanel"/>
 
         <!--Footer Bar-->
-        <Rectangle Grid.Row="3" Fill="Blue"/>
+        <Rectangle Grid.Row="3" Fill="DarkGray"/>
     </Grid>
 </Window>

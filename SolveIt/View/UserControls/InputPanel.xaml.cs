@@ -25,7 +25,9 @@ namespace SolveIt.View.UserControls
             try
             {
                 int result = Interpreter.interpret(input);
-                StatusOutput.Text = $"Result: {result}";
+                StatusOutput.Foreground = Brushes.Green;
+                StatusOutput.Text = "Success";
+                ResultCalculated?.Invoke(this, result);
             }
             catch (Exception ex)
             {

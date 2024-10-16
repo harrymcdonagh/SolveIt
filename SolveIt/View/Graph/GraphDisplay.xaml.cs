@@ -24,5 +24,10 @@ namespace SolveIt.View.Graph
         {
             InitializeComponent();
         }
+
+        public void UpdateAnswer(int result)
+        {
+            AnswerText.Text = result.ToString();
+        }
     }
 }
