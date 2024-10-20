@@ -1,10 +1,7 @@
 ﻿using System.Windows.Controls;
 
-namespace SolveIt.View.Graph
+namespace SolveIt.View.UserControls
 {
-    /// <summary>
-    /// Interaction logic for GraphDisplay.xaml
-    /// </summary>
     public partial class GraphDisplay : UserControl
     {
         public GraphDisplay()

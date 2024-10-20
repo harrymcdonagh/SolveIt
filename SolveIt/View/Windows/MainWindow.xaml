@@ -4,8 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SolveIt"
-        xmlns:userControl="clr-namespace:SolveIt.View.UserControls"
-        xmlns:graph="clr-namespace:SolveIt.View.Graph"
+        xmlns:userControls="clr-namespace:SolveIt.View.UserControls"
         mc:Ignorable="d"
         Title="SolveIt" Height="720" Width="1280"
         Background="#F0F0F0">
@@ -17,13 +16,13 @@
         </Grid.RowDefinitions>
 
         <!--Menu Bar-->
-        <userControl:MenuBar Grid.Row="0" />
+        <userControls:MenuBar Grid.Row="0" />
 
         <!--Graph / Answer Content-->
-        <graph:GraphDisplay Grid.Row="1" x:Name="graphDisplay"/>
+        <userControls:GraphDisplay Grid.Row="1" x:Name="graphDisplay"/>
 
         <!--User Input-->
-        <userControl:InputPanel Grid.Row="2" x:Name="inputPanel"/>
+        <userControls:InputPanel Grid.Row="2" x:Name="inputPanel"/>
 
     </Grid>
 </Window>
