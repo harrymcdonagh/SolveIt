@@ -32,7 +32,7 @@ namespace SolveIt.View.UserControls
             catch (Exception ex)
             {
                 StatusOutput.Foreground = Brushes.Red;
-                StatusOutput.Text = $"Error: {ex.Message}";
+                StatusOutput.Text = $"ERROR: {ex.Message}";
             }
         }
     }

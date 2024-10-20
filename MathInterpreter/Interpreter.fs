@@ -10,9 +10,10 @@ module Interpreter =
     let str2lst s = [for c in s -> c]
     let isblank c = System.Char.IsWhiteSpace c
     let isdigit c = System.Char.IsDigit c
-    let lexError = System.Exception("Lexer error")
     let intVal (c:char) = (int)((int)c - (int)'0')
-    let parseError = System.Exception("Parser error")
+
+    let lexError c = System.Exception($"Lexer error at character: {c}")
+    let parseError msg = System.Exception($"Parser error: {msg}")
 
     let rec scInt(iStr, iVal) = 
         match iStr with
@@ -34,7 +35,7 @@ module Interpreter =
             | c :: tail when isblank c -> scan tail
             | c :: tail when isdigit c -> let (iStr, iVal) = scInt(tail, intVal c) 
                                           Num iVal :: scan iStr
-            | _ -> raise lexError
+            | c :: _ -> raise (lexError c)
         scan (str2lst input)
 
     // Grammar in BNF:
@@ -64,8 +65,8 @@ module Interpreter =
             | Num value :: tail -> tail
             | Lpar :: tail -> match E tail with 
                               | Rpar :: tail -> tail
-                              | _ -> raise parseError
-            | _ -> raise parseError
+                              | _ -> raise (parseError "Missing closing parenthesis")
+            | _ -> raise (parseError "Unexpected token")
         E tList
 
     let parseNeval tList = 
@@ -104,8 +105,8 @@ module Interpreter =
             | Lpar :: tail -> let (tLst, tval) = E tail
                               match tLst with 
                               | Rpar :: tail -> (tail, tval)
-                              | _ -> raise parseError
-            | _ -> raise parseError
+                              | _ -> raise (parseError "Missing closing parenthesis")
+            | _ -> raise (parseError "Unexpected token")
         E tList
 
     let interpret (input: string) =
