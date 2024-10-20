@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="SolveIt.View.UserControls.HelpSyntax"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SolveIt.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.85*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Syntax" FontSize="40" TextAlignment="Center" FontWeight="Bold"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="10">
+                <TextBlock Text="Introduction" FontSize="25" FontWeight="Bold"/>
+                <TextBlock TextWrapping="Wrap" FontSize="15">
+                    This guide explains the valid syntax for arithmetic expressions in our application. Understanding these rules will help you create correct and solvable expressions.
+                </TextBlock>
+
+                <TextBlock Text="Supported Tokens" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock TextWrapping="Wrap" FontSize="15">
+                    Our application supports the following tokens:
+                    <LineBreak/>• Digits: 0-9
+                    <LineBreak/>• Operators: + , - , * , / , % , ^ 
+                    <LineBreak/>• Brackets: ( and )
+                    <LineBreak/>• Decimal point: . (for floating-point numbers)
+                    <LineBreak/>• Exponent notation: E (optional, for scientific notation)
+                </TextBlock>
+
+                <TextBlock Text="Number Types" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock TextWrapping="Wrap" FontSize="15">
+                    The application supports both integer and floating-point numbers. Examples:
+                    <LineBreak/>• Integers: 42, -7, 1000
+                    <LineBreak/>• Floating-point: 3.14, -0.5, 2.0E-3
+                </TextBlock>
+
+                <TextBlock Text="Expression Rules" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock TextWrapping="Wrap" FontSize="15">
+                    When creating expressions, keep in mind:
+                    <LineBreak/>• Expressions are processed left to right (left associative)
+                    <LineBreak/>• BODMAS/BIDMAS rules apply
+                    <LineBreak/>• The minus sign (-) can be used as both binary (subtraction) and unary (negation) operator
+                </TextBlock>
+
+                <TextBlock Text="Examples" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock TextWrapping="Wrap" FontSize="15">
+                    Valid expression examples:
+                    <LineBreak/>• 2 + 3 * 4
+                    <LineBreak/>• (10 - 5) * 3.5
+                    <LineBreak/>• 2^3 + 4%3
+                    <LineBreak/>• -5 + 7
+                    <LineBreak/>• 1.5E2 - 75
+                </TextBlock>
+
+                <TextBlock Text="Error Handling" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock TextWrapping="Wrap" FontSize="15">
+                    The application detects and reports various errors:
+                    <LineBreak/>• Division by zero
+                    <LineBreak/>• Invalid syntax (e.g., mismatched parentheses)
+                    <LineBreak/>• Lexer errors (invalid characters)
+                    <LineBreak/>• Parser errors (incorrect expression structure)
+                </TextBlock>
+
+                <TextBlock Text="Conclusion" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock TextWrapping="Wrap" FontSize="15">
+                    By following these syntax rules, you can create valid arithmetic expressions that our application can solve accurately. If you encounter any issues, refer to the error messages for guidance on correcting your input.
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

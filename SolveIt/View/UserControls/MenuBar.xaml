@@ -5,17 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SolveIt.View.UserControls"
              mc:Ignorable="d" 
-             Height="30" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Menu>
-            <MenuItem Header="File" FontSize="18">
-                <MenuItem Header="Exit"/>
+             Height="40" d:DesignWidth="800">
+    <Grid Background="#3498db">
+        <Menu Background="Transparent" Foreground="White" VerticalAlignment="Center">
+            <MenuItem Header="File" FontSize="16" Foreground="White">
+                <MenuItem Header="Exit" Foreground="Black"/>
             </MenuItem>
-            <MenuItem Header="Edit" FontSize="18"/>
-            <MenuItem Header="Help" FontSize="18" Click="miHelp_Click"/>
+            <MenuItem Header="Edit" FontSize="16" Foreground="White"/>
+            <MenuItem Header="Help" FontSize="16" Foreground="White" Click="miHelp_Click"/>
         </Menu>
-    </Grid >
+    </Grid>
 </UserControl>

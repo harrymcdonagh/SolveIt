@@ -7,13 +7,13 @@
         xmlns:userControl="clr-namespace:SolveIt.View.UserControls"
         xmlns:graph="clr-namespace:SolveIt.View.Graph"
         mc:Ignorable="d"
-        Title="SolveIt" Height="450" Width="800">
+        Title="SolveIt" Height="720" Width="1280"
+        Background="#F0F0F0">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="0.7*"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
         <!--Menu Bar-->
@@ -25,7 +25,5 @@
         <!--User Input-->
         <userControl:InputPanel Grid.Row="2" x:Name="inputPanel"/>
 
-        <!--Footer Bar-->
-        <Rectangle Grid.Row="3" Fill="DarkGray"/>
     </Grid>
 </Window>

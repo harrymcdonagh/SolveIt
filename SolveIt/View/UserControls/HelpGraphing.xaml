@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="SolveIt.View.UserControls.HelpGraphing"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SolveIt.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.85*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Graphing" FontSize="40" TextAlignment="Center" FontWeight="Bold"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="10">
+                <TextBlock Text="Subheading" FontSize="25" FontWeight="Bold"/>
+                <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." TextWrapping="Wrap" FontSize="15"/>
+
+                <TextBlock Text="Subheading" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock Text="• Feature 1: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." TextWrapping="Wrap" FontSize="15"/>
+                <TextBlock Text="• Feature 2: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." TextWrapping="Wrap" FontSize="15"/>
+
+                <TextBlock Text="Subheading" FontSize="25" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock Text="- Step 1: Lorem ipsum dolor sit amet." TextWrapping="Wrap" FontSize="15"/>
+                <TextBlock Text="- Step 2: Consectetur adipiscing elit." TextWrapping="Wrap" FontSize="15"/>
+                <TextBlock Text="- Step 3: Sed do eiusmod tempor incididunt." TextWrapping="Wrap" FontSize="15"/>
+                
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

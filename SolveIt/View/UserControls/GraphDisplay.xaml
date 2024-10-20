@@ -11,17 +11,18 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <!-- Left Column with Light Gray Rectangle -->
-        <Grid Grid.Column="0">
-            <Rectangle Fill="LightGray"/>
-            <TextBlock x:Name="AnswerText" 
-                   Text="Answer will appear here" 
-                   FontSize="65"
-                   FontWeight="Bold"
-                   TextAlignment="Center"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   Margin="10"/>
-        </Grid>
+        <Border Background="White" CornerRadius="8" Margin="10">
+            <Grid>
+                <TextBlock x:Name="AnswerText" 
+                           Text="Answer will appear here" 
+                           FontSize="32"
+                           FontWeight="SemiBold"
+                           Foreground="#333333"
+                           TextAlignment="Center"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="20"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

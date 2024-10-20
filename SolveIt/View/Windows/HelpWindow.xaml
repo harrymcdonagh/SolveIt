@@ -1,0 +1,39 @@
+﻿<Window x:Class="SolveIt.View.Windows.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SolveIt.View.Windows"
+        mc:Ignorable="d"
+        Title="Help" Height="720" Width="1280"
+        Background="#F0F0F0">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="0.8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition />
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#3498db"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="SolveIt" FontSize="32" FontWeight="Bold" Foreground="White" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Help" FontSize="32" FontWeight="SemiBold" Foreground="White" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" BorderBrush="#BDBDBD" BorderThickness="0,0,1,0" Background="White">
+            <ListBox x:Name="HelpListBox" FontSize="16" SelectionChanged="Help_SelectionChanged" 
+                     BorderThickness="0" Background="Transparent" ItemContainerStyle="{StaticResource ListBoxItemStyle}">
+                <ListBoxItem Content="Overview"/>
+                <ListBoxItem Content="Valid Syntax"/>
+                <ListBoxItem Content="Graphing"/>
+            </ListBox>
+        </Border>
+
+        <ContentControl x:Name="HelpContentControl" Grid.Row="1" Grid.Column="1" Margin="20"/>
+        <Button Content="Close" Height="35" Margin="200,0,200,0" Click="btnClose_Click" Grid.Row="3" Grid.Column="1" Style="{StaticResource RedBtn}" />
+    </Grid>
+</Window>
