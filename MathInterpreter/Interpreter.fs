@@ -5,7 +5,7 @@ module Interpreter =
     open System
 
     type terminal = 
-        Add | Sub | Mul | Div | Lpar | Rpar | Num of int
+        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Num of int
 
     let str2lst s = [for c in s -> c]
     let isblank c = System.Char.IsWhiteSpace c
@@ -29,6 +29,8 @@ module Interpreter =
             | '/'::tail -> Div :: scan tail
             | '('::tail -> Lpar:: scan tail
             | ')'::tail -> Rpar:: scan tail
+            | '^'::tail -> Pow:: scan tail
+            | '%'::tail -> Rem:: scan tail
             | c :: tail when isblank c -> scan tail
             | c :: tail when isdigit c -> let (iStr, iVal) = scInt(tail, intVal c) 
                                           Num iVal :: scan iStr
@@ -54,6 +56,8 @@ module Interpreter =
             match tList with
             | Mul :: tail -> (NR >> Topt) tail
             | Div :: tail -> (NR >> Topt) tail
+            | Pow :: tail -> (NR >> Topt) tail
+            | Rem :: tail -> (NR >> Topt) tail
             | _ -> tList
         and NR tList =
             match tList with 
@@ -80,6 +84,19 @@ module Interpreter =
                              Topt (tLst, value * tval)
             | Div :: tail -> let (tLst, tval) = NR tail
                              Topt (tLst, value / tval)
+            | Pow :: tail -> let (tLst, tval) = NR tail
+                             let mutable i = 1
+                             let mutable final = value
+
+                             while (i < tval) do (
+                               final <- final * value
+                               i <- i+1
+                               )
+
+                             Topt (tLst,final )
+            | Rem :: tail -> let (tLst, tval) = NR tail
+                             let mutable i = value / tval
+                             Topt (tLst, value-(tval*i))
             | _ -> (tList, value)
         and NR tList =
             match tList with 
