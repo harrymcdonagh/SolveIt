@@ -10,7 +10,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         inputPanel.ResultCalculated += InputPanel_ResultCalculated;
     }
-    private void InputPanel_ResultCalculated(object sender, int result)
+    private void InputPanel_ResultCalculated(object sender, float result)
     {
         graphDisplay.UpdateAnswer(result);
     }

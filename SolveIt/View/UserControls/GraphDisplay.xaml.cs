@@ -9,7 +9,7 @@ namespace SolveIt.View.UserControls
             InitializeComponent();
         }
 
-        public void UpdateAnswer(int result)
+        public void UpdateAnswer(float result)
         {
             AnswerText.Text = result.ToString();
         }
