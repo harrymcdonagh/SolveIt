@@ -7,7 +7,7 @@ namespace SolveIt.View.UserControls
 {
     public partial class InputPanel : UserControl
     {
-        public event EventHandler<int> ResultCalculated;
+        public event EventHandler<float> ResultCalculated;
         public InputPanel()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace SolveIt.View.UserControls
             }
             try
             {
-                int result = Interpreter.interpret(input);
+                float result = (float)Interpreter.interpret(input);
                 StatusOutput.Foreground = Brushes.Green;
                 StatusOutput.Text = "Success";
                 ResultCalculated?.Invoke(this, result);

@@ -5,20 +5,27 @@ module Interpreter =
     open System
 
     type terminal = 
-        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Num of int
+        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Num of float
 
     let str2lst s = [for c in s -> c]
     let isblank c = System.Char.IsWhiteSpace c
     let isdigit c = System.Char.IsDigit c
-    let intVal (c:char) = (int)((int)c - (int)'0')
+    let intVal (c:char) = float ((int)c - (int)'0')
 
     let lexError c = System.Exception($"Lexer error at character: {c}")
     let parseError msg = System.Exception($"Parser error: {msg}")
 
-    let rec scInt(iStr, iVal) = 
+    let rec scNum (iStr, iVal) =
         match iStr with
-        c :: tail when isdigit c -> scInt(tail, 10*iVal+(intVal c))
+        | '.' :: tail -> let (iStr, fracVal, divisor) = scFrac(tail, 0.0, 0.1)
+                         (iStr, iVal + fracVal)
+        | c :: tail when isdigit c -> scNum(tail, 10.0 * iVal + float (intVal c))
         | _ -> (iStr, iVal)
+    and scFrac (iStr, fracVal, divisor) =
+      match iStr with
+        | c :: tail when isdigit c -> scFrac(tail, fracVal + (float (intVal c)) * divisor, divisor / 10.0)
+        | _ -> (iStr, fracVal, divisor)
+
 
     let lexer input = 
         let rec scan input =
@@ -33,8 +40,9 @@ module Interpreter =
             | '^'::tail -> Pow:: scan tail
             | '%'::tail -> Rem:: scan tail
             | c :: tail when isblank c -> scan tail
-            | c :: tail when isdigit c -> let (iStr, iVal) = scInt(tail, intVal c) 
-                                          Num iVal :: scan iStr
+            | c :: tail when isdigit c || c = '.' ->
+                let (iStr, iVal) = scNum(c::tail, 0.0) 
+                Num iVal :: scan iStr
             | c :: _ -> raise (lexError c)
         scan (str2lst input)
 
@@ -86,18 +94,19 @@ module Interpreter =
             | Div :: tail -> let (tLst, tval) = NR tail
                              Topt (tLst, value / tval)
             | Pow :: tail -> let (tLst, tval) = NR tail
-                             let mutable i = 1
-                             let mutable final = value
+                          //   let mutable i = 1
+                            // let mutable final = value
 
-                             while (i < tval) do (
-                               final <- final * value
-                               i <- i+1
-                               )
+                            // while (i < tval) do (
+                            //   final <- final * value
+                            //   i <- i+1
+                            //   )
 
-                             Topt (tLst,final )
+                             Topt (tLst, Math.Pow(value, tval))
             | Rem :: tail -> let (tLst, tval) = NR tail
-                             let mutable i = value / tval
-                             Topt (tLst, value-(tval*i))
+                             Topt (tLst, value % tval)
+                             //let mutable i = value / tval
+                             //Topt (tLst, value-(tval*i))
             | _ -> (tList, value)
         and NR tList =
             match tList with 
