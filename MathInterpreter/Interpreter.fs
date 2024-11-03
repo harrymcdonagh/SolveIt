@@ -3,9 +3,10 @@
 module Interpreter =
 
     open System
+    open System.Text.RegularExpressions
 
     type terminal = 
-        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Num of float
+        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Neg | Num of float
 
     let str2lst s = [for c in s -> c]
     let isblank c = System.Char.IsWhiteSpace c
@@ -14,6 +15,11 @@ module Interpreter =
 
     let lexError c = System.Exception($"Lexer error at character: {c}")
     let parseError msg = System.Exception($"Parser error: {msg}")
+
+    let UnaryMinus (input: string) : string =
+        let pattern = @"(?<!\d+\s*)-"
+        let replacement = "~"
+        Regex.Replace(input, pattern, replacement)
 
     let rec scNum (iStr, iVal) =
         match iStr with
@@ -37,6 +43,7 @@ module Interpreter =
             | '/'::tail -> Div :: scan tail
             | '('::tail -> Lpar:: scan tail
             | ')'::tail -> Rpar:: scan tail
+            | '~'::tail -> Neg:: scan tail
             | '^'::tail -> Pow:: scan tail
             | '%'::tail -> Rem:: scan tail
             | c :: tail when isblank c -> scan tail
@@ -53,7 +60,7 @@ module Interpreter =
     // <Topt>     ::= "*" <NR> <Topt> | "/" <NR> <Topt> | <empty>
     // <NR>       ::= "Num" <value> | "(" <E> ")"
 
-    let parser tList = 
+    (*let parser tList = 
         let rec E tList = (T >> Eopt) tList         // >> is forward function composition operator: let inline (>>) f g x = g(f x)
         and Eopt tList = 
             match tList with
@@ -75,7 +82,7 @@ module Interpreter =
                               | Rpar :: tail -> tail
                               | _ -> raise (parseError "Missing closing parenthesis")
             | _ -> raise (parseError "Unexpected token")
-        E tList
+        E tList*)
 
     let parseNeval tList = 
         let rec E tList = (T >> Eopt) tList
@@ -111,6 +118,8 @@ module Interpreter =
         and NR tList =
             match tList with 
             | Num value :: tail -> (tail, value)
+            | Neg :: tail -> let (tLst, tval) = NR tail
+                             Topt (tLst, -1.0 * tval)
             | Lpar :: tail -> let (tLst, tval) = E tail
                               match tLst with 
                               | Rpar :: tail -> (tail, tval)
@@ -119,6 +128,7 @@ module Interpreter =
         E tList
 
     let interpret (input: string) =
+        let input = UnaryMinus input;
         let oList = lexer input
         let Out = parseNeval oList
         snd Out
