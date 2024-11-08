@@ -93,33 +93,28 @@ module Interpreter =
             | Sub :: tail -> let (tLst, tval) = T tail
                              Eopt (tLst, value - tval)
             | _ -> (tList, value)
-        and T tList = (NR >> Topt) tList
+        and T tList = (P >> Topt) tList
         and Topt (tList, value) =
             match tList with
-            | Mul :: tail -> let (tLst, tval) = NR tail
+            | Mul :: tail -> let (tLst, tval) = P tail
                              Topt (tLst, value * tval)
-            | Div :: tail -> let (tLst, tval) = NR tail
-                             Topt (tLst, value / tval)
-            | Pow :: tail -> let (tLst, tval) = NR tail
-                          //   let mutable i = 1
-                            // let mutable final = value
-
-                            // while (i < tval) do (
-                            //   final <- final * value
-                            //   i <- i+1
-                            //   )
-
-                             Topt (tLst, Math.Pow(value, tval))
-            | Rem :: tail -> let (tLst, tval) = NR tail
+            | Div :: tail -> let (tLst, tval) = P tail
+                             Topt (tLst, value / tval)           
+            | Rem :: tail -> let (tLst, tval) = P tail
                              Topt (tLst, value % tval)
-                             //let mutable i = value / tval
-                             //Topt (tLst, value-(tval*i))
+            | _ -> (tList, value)
+        and P tList = (NR >> Popt) tList
+        and Popt (tList, value) =
+            match tList with
+            | Pow :: tail -> let (tLst, tval) = NR tail
+                             Popt (tLst, Math.Pow(value, tval))
             | _ -> (tList, value)
         and NR tList =
             match tList with 
             | Num value :: tail -> (tail, value)
             | Neg :: tail -> let (tLst, tval) = NR tail
-                             Topt (tLst, -1.0 * tval)
+                             let (tLst, tval) = Popt (tLst, tval)
+                             (tLst, -1.0*tval) 
             | Lpar :: tail -> let (tLst, tval) = E tail
                               match tLst with 
                               | Rpar :: tail -> (tail, tval)
