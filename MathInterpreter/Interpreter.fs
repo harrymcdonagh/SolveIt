@@ -1,5 +1,15 @@
 ﻿namespace MathInterpreter
 
+    // Grammar in BNF:
+    // <E>        ::= <T> <Eopt>
+    // <Eopt>     ::= "+" <T> <Eopt> | "-" <T> <Eopt> | <empty>
+    // <T>        ::= <P> <Topt>
+    // <Topt>     ::= "*" <NR> <Topt> | "/" <NR> <Topt> | "%" <P> <Topt> | <empty>
+    // <P>        ::= <NR> <Popt>
+    // <Popt>     ::= "^" <NR> <Popt> | <empty>
+    // <NR>       ::= "Num" <value> | "~" <NR> | "(" <E> ")"
+
+
 module Interpreter =
 
     open System
@@ -53,12 +63,6 @@ module Interpreter =
             | c :: _ -> raise (lexError c)
         scan (str2lst input)
 
-    // Grammar in BNF:
-    // <E>        ::= <T> <Eopt>
-    // <Eopt>     ::= "+" <T> <Eopt> | "-" <T> <Eopt> | <empty>
-    // <T>        ::= <NR> <Topt>
-    // <Topt>     ::= "*" <NR> <Topt> | "/" <NR> <Topt> | <empty>
-    // <NR>       ::= "Num" <value> | "(" <E> ")"
 
     (*let parser tList = 
         let rec E tList = (T >> Eopt) tList         // >> is forward function composition operator: let inline (>>) f g x = g(f x)
