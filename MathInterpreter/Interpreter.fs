@@ -14,9 +14,18 @@ module Interpreter =
 
     open System
     open System.Text.RegularExpressions
-
+    let mutable variables : System.Collections.Generic.Dictionary<string, float> option = None
+    let getVariables () =
+        match variables with
+        | Some dict -> dict
+        | None -> 
+            let dict = System.Collections.Generic.Dictionary<string, float>()
+            dict.Add("x", 0.0)
+            dict.Add("y", 0.0)
+            variables <- Some dict
+            dict
     type terminal = 
-        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Neg | Num of float
+        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Neg | Num of float | Equals | Var of string
 
     let str2lst s = [for c in s -> c]
     let isblank c = System.Char.IsWhiteSpace c
@@ -56,10 +65,13 @@ module Interpreter =
             | '~'::tail -> Neg:: scan tail
             | '^'::tail -> Pow:: scan tail
             | '%'::tail -> Rem:: scan tail
+            | '='::tail -> Equals :: scan tail
             | c :: tail when isblank c -> scan tail
             | c :: tail when isdigit c || c = '.' ->
                 let (iStr, iVal) = scNum(c::tail, 0.0) 
                 Num iVal :: scan iStr
+            | 'x' :: tail -> Var "x" :: scan tail
+            | 'y' :: tail -> Var "y" :: scan tail
             | c :: _ -> raise (lexError c)
         scan (str2lst input)
 
@@ -87,9 +99,14 @@ module Interpreter =
                               | _ -> raise (parseError "Missing closing parenthesis")
             | _ -> raise (parseError "Unexpected token")
         E tList*)
-
     let parseNeval tList = 
-        let rec E tList = (T >> Eopt) tList
+        let rec E tList = 
+            match tList with
+            | Var varName :: Equals :: tail when varName = "x" || varName = "y" ->
+                let (tList, value) = E tail
+                getVariables().[varName] <- value
+                (tList, value)
+            | _ -> (T >> Eopt) tList
         and Eopt (tList, value) = 
             match tList with
             | Add :: tail -> let (tLst, tval) = T tail
@@ -116,9 +133,14 @@ module Interpreter =
         and NR tList =
             match tList with 
             | Num value :: tail -> (tail, value)
+            | Var varName :: tail when varName = "x" || varName = "y" ->
+                if getVariables().ContainsKey(varName) then
+                    (tail, getVariables().[varName])
+                else
+                    raise (parseError $"Variable '{varName}' not defined.")
             | Neg :: tail -> let (tLst, tval) = NR tail
                              let (tLst, tval) = Popt (tLst, tval)
-                             (tLst, -1.0*tval) 
+                             (tLst, -1.0 * tval) 
             | Lpar :: tail -> let (tLst, tval) = E tail
                               match tLst with 
                               | Rpar :: tail -> (tail, tval)
@@ -127,6 +149,7 @@ module Interpreter =
         E tList
 
     let interpret (input: string) =
+        let variables = getVariables()
         let input = UnaryMinus input;
         let oList = lexer input
         let Out = parseNeval oList
