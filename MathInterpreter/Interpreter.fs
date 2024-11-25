@@ -7,7 +7,7 @@
     // <Topt>     ::= "*" <NR> <Topt> | "/" <NR> <Topt> | "%" <P> <Topt> | <empty>
     // <P>        ::= <NR> <Popt>
     // <Popt>     ::= "^" <NR> <Popt> | <empty>
-    // <NR>       ::= "Num" <value> | "~" <NR> | "(" <E> ")"
+    // <NR>       ::= "Num" <value> | "~" <NR> | "(" <E> ")" | "Var" <name> <value>
 
 
 module Interpreter =
@@ -120,7 +120,10 @@ module Interpreter =
             | Mul :: tail -> let (tLst, tval) = P tail
                              Topt (tLst, value * tval)
             | Div :: tail -> let (tLst, tval) = P tail
-                             Topt (tLst, value / tval)           
+                             if (floor(value) = value && floor(tval) = tval) then
+                                Topt (tLst, floor(value / tval))
+                             else
+                                Topt (tLst, value / tval)           
             | Rem :: tail -> let (tLst, tval) = P tail
                              Topt (tLst, value % tval)
             | _ -> (tList, value)
