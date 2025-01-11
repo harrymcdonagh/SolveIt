@@ -25,7 +25,7 @@ module Interpreter =
             variables <- Some dict
             dict
     type terminal = 
-        Add | Sub | Mul | Div | Lpar | Rpar | Pow | Rem | Neg | Num of float | Equals | Var of string
+        Add | Sub | Mul | Function | Div | Lpar | Rpar | Pow | Rem | Neg | Num of float | Equals | Var of string
 
     let str2lst s = [for c in s -> c]
     let isblank c = System.Char.IsWhiteSpace c
@@ -39,6 +39,16 @@ module Interpreter =
         let pattern = @"(?<!\d+\s*)-"
         let replacement = "~"
         Regex.Replace(input, pattern, replacement)
+
+    let MultFix (input: string) : string =
+        let pattern = @"(?<=[\d])\("
+        let replacement = "*("
+        Regex.Replace(input, pattern, replacement)
+
+  //  let Func (input: string) : string =
+  //      let pattern = @"(?<!\S)y="
+  //      let replacement = "F"
+  //      Regex.Replace(input, pattern, replacement)
 
     let rec scNum (iStr, iVal) =
         match iStr with
@@ -65,6 +75,7 @@ module Interpreter =
             | '~'::tail -> Neg:: scan tail
             | '^'::tail -> Pow:: scan tail
             | '%'::tail -> Rem:: scan tail
+ //           | 'F'::tail -> Function:: scan tail
             | '='::tail -> Equals :: scan tail
             | c :: tail when isblank c -> scan tail
             | c :: tail when isdigit c || c = '.' ->
@@ -158,6 +169,8 @@ module Interpreter =
     let interpret (input: string) =
         let variables = getVariables()
         let input = UnaryMinus input;
+        let input = MultFix input;
+//        let input = Func input;
         let oList = lexer input
         let Out = parseNeval oList
         snd Out
