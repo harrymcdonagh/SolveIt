@@ -120,11 +120,15 @@ module Interpreter =
             | Mul :: tail -> let (tLst, tval) = P tail
                              Topt (tLst, value * tval)
             | Div :: tail -> let (tLst, tval) = P tail
+                             if (tval = 0.0) then
+                                raise (parseError "Can't divide by zero")
                              if (floor(value) = value && floor(tval) = tval) then
                                 Topt (tLst, floor(value / tval))
                              else
                                 Topt (tLst, value / tval)           
             | Rem :: tail -> let (tLst, tval) = P tail
+                             if (tval = 0.0) then
+                                raise (parseError "Can't divide by zero")
                              Topt (tLst, value % tval)
             | _ -> (tList, value)
         and P tList = (NR >> Popt) tList
