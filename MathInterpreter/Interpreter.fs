@@ -25,7 +25,7 @@ module Interpreter =
             variables <- Some dict
             dict
     type terminal = 
-        Add | Sub | Mul | Function | Div | Lpar | Rpar | Pow | Rem | Neg | Num of float | Equals | Var of string
+        Add | Sub | Mul | Function | Div | Lpar | Rpar | Pow | Rem | Neg | Sin | Cos | Num of float | Equals | Var of string
 
     let str2lst s = [for c in s -> c]
     let isblank c = System.Char.IsWhiteSpace c
@@ -45,10 +45,14 @@ module Interpreter =
         let replacement = "*("
         Regex.Replace(input, pattern, replacement)
 
-  //  let Func (input: string) : string =
-  //      let pattern = @"(?<!\S)y="
-  //      let replacement = "F"
-  //      Regex.Replace(input, pattern, replacement)
+    let Trig1 (input: string) : string =
+        let pattern = @"cos"
+        let replacement = "C"
+        Regex.Replace(input, pattern, replacement)
+    let Trig2 (input: string) : string =
+        let pattern = @"sin"
+        let replacement = "S"
+        Regex.Replace(input, pattern, replacement)
 
     let rec scNum (iStr, iVal) =
         match iStr with
@@ -75,8 +79,9 @@ module Interpreter =
             | '~'::tail -> Neg:: scan tail
             | '^'::tail -> Pow:: scan tail
             | '%'::tail -> Rem:: scan tail
- //           | 'F'::tail -> Function:: scan tail
             | '='::tail -> Equals :: scan tail
+            | 'S'::tail -> Sin :: scan tail
+            | 'C'::tail -> Cos :: scan tail
             | c :: tail when isblank c -> scan tail
             | c :: tail when isdigit c || c = '.' ->
                 let (iStr, iVal) = scNum(c::tail, 0.0) 
@@ -86,30 +91,6 @@ module Interpreter =
             | c :: _ -> raise (lexError c)
         scan (str2lst input)
 
-
-    (*let parser tList = 
-        let rec E tList = (T >> Eopt) tList         // >> is forward function composition operator: let inline (>>) f g x = g(f x)
-        and Eopt tList = 
-            match tList with
-            | Add :: tail -> (T >> Eopt) tail
-            | Sub :: tail -> (T >> Eopt) tail
-            | _ -> tList
-        and T tList = (NR >> Topt) tList
-        and Topt tList =
-            match tList with
-            | Mul :: tail -> (NR >> Topt) tail
-            | Div :: tail -> (NR >> Topt) tail
-            | Pow :: tail -> (NR >> Topt) tail
-            | Rem :: tail -> (NR >> Topt) tail
-            | _ -> tList
-        and NR tList =
-            match tList with 
-            | Num value :: tail -> tail
-            | Lpar :: tail -> match E tail with 
-                              | Rpar :: tail -> tail
-                              | _ -> raise (parseError "Missing closing parenthesis")
-            | _ -> raise (parseError "Unexpected token")
-        E tList*)
     let parseNeval tList = 
         let rec E tList = 
             match tList with
@@ -159,6 +140,12 @@ module Interpreter =
             | Neg :: tail -> let (tLst, tval) = NR tail
                              let (tLst, tval) = Popt (tLst, tval)
                              (tLst, -1.0 * tval) 
+            | Cos :: tail -> let (tLst, tval) = NR tail
+                             let (tLst, tval) = Popt (tLst, tval)
+                             (tLst, cos(tval))
+            | Sin :: tail -> let (tLst, tval) = NR tail
+                             let (tLst, tval) = Popt (tLst, tval)
+                             (tLst, sin(tval))         
             | Lpar :: tail -> let (tLst, tval) = E tail
                               match tLst with 
                               | Rpar :: tail -> (tail, tval)
@@ -170,7 +157,8 @@ module Interpreter =
         let variables = getVariables()
         let input = UnaryMinus input;
         let input = MultFix input;
-//        let input = Func input;
+        let input = Trig1 input;
+        let input = Trig2 input;
         let oList = lexer input
         let Out = parseNeval oList
         snd Out

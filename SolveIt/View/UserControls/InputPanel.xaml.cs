@@ -52,8 +52,8 @@ namespace SolveIt.View.UserControls
         public void EvaluateEquation(string equation)
         {
             System.Diagnostics.Debug.WriteLine("Equation: " + equation);
-            double start = -10;
-            double end = 10;
+            double start = -20;
+            double end = 20;
             double step = 0.5;
             List<double> xValues = new List<double>();
             List<double> yValues = new List<double>();
