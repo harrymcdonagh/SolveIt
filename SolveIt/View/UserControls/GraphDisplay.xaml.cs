@@ -31,5 +31,27 @@ namespace SolveIt.View.UserControls
             plotModel.Series.Add(series);
             plotModel.InvalidatePlot(true);
         }
+        public void PlotValues(List<double> xValues, List<double> yValues)
+        {
+            if (xValues == null || yValues == null || xValues.Count != yValues.Count)
+            {
+                throw new ArgumentException("X and Y values must be non-null");
+            }
+
+            plotModel.Series.Clear();
+
+            var series = new LineSeries
+            {
+                Title = "Custom Data"
+            };
+
+            for (int i = 0; i < xValues.Count; i++)
+            {
+                series.Points.Add(new DataPoint(xValues[i], yValues[i]));
+            }
+
+            plotModel.Series.Add(series);
+            plotModel.InvalidatePlot(true);
+        }
     }
 }
