@@ -36,7 +36,7 @@ module Interpreter =
     let parseError msg = System.Exception($"Parser error: {msg}")
 
     let UnaryMinus (input: string) : string =
-        let pattern = @"(?<!\d+\s*)-"
+        let pattern = @"(?<![\d\)]+\s*)-"
         let replacement = "~"
         Regex.Replace(input, pattern, replacement)
 
