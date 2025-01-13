@@ -29,6 +29,9 @@ namespace SolveIt.View.UserControls
             Match match = Regex.Match(input, eq);
             if (match.Success)
             {
+                ResultOutput.Text = input + " plotted";
+                StatusOutput.Foreground = Brushes.Green;
+                StatusOutput.Text = "Success!";
                 System.Diagnostics.Debug.WriteLine("Match: " + match.Groups[1].Value);
                 EvaluateEquation(match.Groups[1].Value);
             }
@@ -38,15 +41,18 @@ namespace SolveIt.View.UserControls
                 {
                     float result = (float)Interpreter.interpret(input);
                     StatusOutput.Foreground = Brushes.Green;
-                    StatusOutput.Text = "Success! Answer - " + result;
+                    StatusOutput.Text = "Success!";
                     ResultCalculated?.Invoke(this, result);
+                    ResultOutput.Text = "Result = " + result.ToString();
                 }
                 catch (Exception ex)
                 {
                     StatusOutput.Foreground = Brushes.Red;
                     StatusOutput.Text = $"ERROR: {ex.Message}";
+                    ResultOutput.Text = "N/A";
                 }
             }
+
         }
         public event EventHandler<Tuple<List<double>, List<double>>> GraphCalculated;
         public void EvaluateEquation(string equation)

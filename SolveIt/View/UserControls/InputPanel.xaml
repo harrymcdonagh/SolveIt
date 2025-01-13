@@ -8,9 +8,9 @@
              d:DesignHeight="150" d:DesignWidth="800">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="0.05*"/>
             <ColumnDefinition Width="0.7*"/>
-            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="0.25*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1">
             <TextBox Name="InputTextBox" Height="35" Margin="0,0,0,10" FontSize="16" Padding="5,0" VerticalContentAlignment="Center"/>
@@ -22,6 +22,16 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Status:" Margin="0,0,5,0" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="1" x:Name="StatusOutput" Text="" FontSize="14" VerticalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="N/A" x:Name="ResultOutput" Margin="0,0,5,0" FontSize="20" FontWeight="SemiBold" 
+                     VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
             </Grid>
         </StackPanel>
     </Grid>

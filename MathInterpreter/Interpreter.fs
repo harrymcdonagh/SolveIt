@@ -1,13 +1,14 @@
 ﻿namespace MathInterpreter
 
     // Grammar in BNF:
-    // <E>        ::= <T> <Eopt>
+    // <E>        ::= <Assignment> | <T> <Eopt>
+    // <Assignment>::= "Var" <name> "=" <T> <Eopt>
     // <Eopt>     ::= "+" <T> <Eopt> | "-" <T> <Eopt> | <empty>
     // <T>        ::= <P> <Topt>
-    // <Topt>     ::= "*" <NR> <Topt> | "/" <NR> <Topt> | "%" <P> <Topt> | <empty>
+    // <Topt>     ::= "*" <P> <Topt> | "/" <P> <Topt> | "%" <P> <Topt> | <empty>
     // <P>        ::= <NR> <Popt>
     // <Popt>     ::= "^" <NR> <Popt> | <empty>
-    // <NR>       ::= "Num" <value> | "~" <NR> | "(" <E> ")" | "Var" <name> <value>
+    // <NR>       ::= "Num" <value> | "~" <NR> | "(" <E> ")" | "Var" <name> | "sin" <NR> | "cos" <NR>
 
 
 module Interpreter =

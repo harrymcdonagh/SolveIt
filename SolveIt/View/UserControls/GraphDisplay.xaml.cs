@@ -16,7 +16,7 @@ namespace SolveIt.View.UserControls
 
         private void InitializePlot()
         {
-            plotModel = new PlotModel { Title = "Graph Display" };
+            plotModel = new PlotModel { Title = "SolveIt" };
             plotView.Model = plotModel;
         }
 
