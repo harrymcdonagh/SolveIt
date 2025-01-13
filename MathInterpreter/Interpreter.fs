@@ -36,17 +36,17 @@ module Interpreter =
     let lexError c = System.Exception($"Lexer error at character: {c}")
     let parseError msg = System.Exception($"Parser error: {msg}")
 
-    let UnaryMinus (input: string) : string =
+    let UnaryMinus (input: string) : string =           // This function makes unary minus easier to detect by lexer
         let pattern = @"(?<![\d\)]+\s*)-"
         let replacement = "~"
         Regex.Replace(input, pattern, replacement)
 
-    let MultFix (input: string) : string =
+    let MultFix (input: string) : string =              // This function allows lexer to understand mutiplication with brackets such as a(b) = a*(b)
         let pattern = @"(?<=[\d])\("
         let replacement = "*("
         Regex.Replace(input, pattern, replacement)
 
-    let Trig1 (input: string) : string =
+    let Trig1 (input: string) : string =                // lets lexer read sin/cos
         let pattern = @"cos"
         let replacement = "C"
         Regex.Replace(input, pattern, replacement)
